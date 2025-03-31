@@ -3,9 +3,12 @@ var router = express.Router();
 
 const service = require('../services/users');
 
+const private = require('../middlewares/private');
+  
+
 router.get('/:id', service.getById);
 
-router.put('/add', service.add);
+router.post('/add', service.add);
 
 router.patch('/:id', service.update);
 

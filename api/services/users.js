@@ -24,7 +24,7 @@ exports.add = async (req, res, next) => {
 
     const temp = ({
         name     : req.body.name,
-        firstname: req.body.firstname,
+        
         email    : req.body.email,
         password : req.body.password
     });
@@ -43,7 +43,7 @@ exports.update = async (req, res, next) => {
     const id = req.params.id
     const temp = ({
         name    : req.body.name,
-        firstname: req.body.firstname,
+        
         email    : req.body.email,
         password : req.body.password
     });
