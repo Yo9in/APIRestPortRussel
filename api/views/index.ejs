@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; background-color: #f4f4f4; }
+    form { margin-top: 20px; background: #fff; padding: 20px; border-radius: 8px; width: 300px; }
+    fieldset { border: none; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    h1, h2 { margin-top: 40px; }
+    a { color: #007BFF; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Gestion du port de Russel</h1>
+
+  <p>Bienvenue sur l'API qui permet la gestion du port de Russel.</p>
+  <p>Ici, vous pourrez gérer les embarquadaires et les réservations du port.</p>
+  <p>Veuillez-vous connecter pour avoir accès à la gestion.</p>
+
+  <form method="POST" action="/users/authenticate">
+    <fieldset>
+      <legend>Connexion</legend>
+
+      <label for="email">Nom d'utilisateur :</label>
+      <input type="text" name="email" id="email" required>
+
+      <label for="password">Mot de passe :</label>
+      <input type="password" name="password" id="password" required>
+
+      <button type="submit">Se connecter</button>
+    </fieldset>
+  </form>
+
+  <h2>Lien vers la documentation</h2>
+  <a href="../docs/index.html" target="_blank">📄 Documentation</a>
+
+</body>
+</html>

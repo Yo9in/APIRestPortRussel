@@ -2,17 +2,19 @@ var express = require('express');
 var router = express.Router();
 
 const userRoute = require('../routes/users');
+const catwayRoute = require('../routes/catways');
+const reservationRoute = require('../routes/reservation');
+const dashboardRoute = require('../routes/dashboard');
 
-/* GET home page. */
-router.get('/', async (req, res) => {
-  res.status(200).json({ 
-    name: process.env.APP_NAME,
-    version: '1.0',
-    status: 200,
-    message: 'Bienvenue sur lAPI du Port de Plaisance Russell'
-  });
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Acceuil'});
 });
 
 router.use('/users', userRoute);
+router.use('/catways', catwayRoute);
+router.use('/catways', reservationRoute);
+router.use('/dashboard', dashboardRoute);
+
+
 
 module.exports = router;
