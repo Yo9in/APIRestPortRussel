@@ -16,6 +16,17 @@
       margin-right: 8px;
     }
     .logout { background-color: #dc3545; }
+    .mini-nav {
+      margin: 20px 0;
+    }
+    .mini-nav a {
+      margin-right: 12px;
+      background: #28a745;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
     h1, h2 { margin-top: 20px; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
     th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
@@ -24,12 +35,12 @@
 </head>
 <body>
 
-  <!-- 🔝 Menu haut -->
+  <!--  Menu haut -->
   <div class="nav">
     <div>
-      <a href="javascript:history.back()" class="button">⬅️ Retour</a>
-      <a href="/docs/index.html" class="button" target="_blank">📚 Documentation</a>
-      <a href="/users/logout" class="button logout">🚪 Déconnexion</a>
+      <a href="javascript:history.back()" class="button">⬅ Retour</a>
+      <a href="/docs/index.html" class="button" target="_blank"> Documentation</a>
+      <a href="/users/logout" class="button logout"> Déconnexion</a>
     </div>
     <div class="user-info">
       Connecté en tant que : <strong><%= user.name %></strong><br>
@@ -38,11 +49,18 @@
     </div>
   </div>
 
-  <!-- 📋 Titre -->
-  <h1>📊 Tableau de bord</h1>
+  <!--  Titre -->
+  <h1> Tableau de bord</h1>
 
-  <!-- 📅 Réservations -->
-  <h2>📅 Réservations en cours</h2>
+  <!--  navigation -->
+  <div class="mini-nav">
+    <a href="/catways"> Gérer les Catways</a>
+    <a href="/reservations"> Gérer les Réservations</a>
+    <a href="/users"> Gérer les Utilisateurs</a>
+  </div>
+
+  <!--  Réservations -->
+  <h2> Réservations en cours</h2>
   <% if (reservation.length === 0) { %>
     <p>Aucune réservation enregistrée.</p>
   <% } else { %>

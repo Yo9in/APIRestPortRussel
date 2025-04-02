@@ -12,14 +12,14 @@ const private = require('../middlewares/private');
 
 router.get('/', service.getAllAll);
 
-router.get('/catways/:id/reservations/:ReservationId', private.checkJWT, service.getById);
+router.get('/catways/:id/reservations/:idReservation', service.getById);
 
 router.post('/catways/:id/reservations' ,private.checkJWT,  service.add);
 
 
 
-router.patch('/catways/:id/reservations/:ReservationId',private.checkJWT, service.update);
+router.patch('/catways/:id/reservations/:idReservation',private.checkJWT, service.update);
 
-router.delete('/catways/:id/reservations/:ReservationId',private.checkJWT, service.delete);
+router.delete('/catways/:id/reservations/:idReservation',private.checkJWT, service.delete);
 
 module.exports = router;

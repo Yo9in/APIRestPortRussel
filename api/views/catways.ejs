@@ -9,7 +9,17 @@
     form, table { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
     label { display: block; margin-bottom: 8px; }
     input[type="text"], input[type="number"] { width: 100%; padding: 8px; margin-bottom: 12px; }
-    button { padding: 8px 12px; margin-top: 10px; }
+    button, .back-btn {
+      padding: 8px 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 10px; border: 1px solid #ccc; }
     th { background-color: #eee; }
@@ -17,6 +27,9 @@
   </style>
 </head>
 <body>
+
+  <!-- 🔙 Bouton retour -->
+  <a href="/dashboard" class="back-btn">⬅️ Retour au tableau de bord</a>
 
   <h1>Gestion des Catways</h1>
 
@@ -58,13 +71,13 @@
             <td>
               <form action="/catways/<%= catway._id %>?_method=PATCH" method="POST">
                 <input type="text" name="catwayState" value="<%= catway.catwayState %>" required>
-                <button type="submit">📝 Modifier</button>
+                <button type="submit"> Modifier</button>
               </form>
             </td>
             <td class="actions">
-              <a href="/catways/<%= catway._id %>">🔍 Détails</a>
+              <a href="/catways/<%= catway._id %>"> Détails</a>
               <form action="/catways/<%= catway._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Supprimer ce catway ?')">
-                <button type="submit">🗑️ Supprimer</button>
+                <button type="submit"> Supprimer</button>
               </form>
             </td>
           </tr>

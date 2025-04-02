@@ -1,7 +1,21 @@
 const Catway = require('../models/catways');
+const Reservation = require('../models/reservation');
+
 
 // 🔁 Helper : détection si on veut du JSON ou du HTML
 const isJSON = (req) => req.accepts(['html', 'json']) === 'json';
+
+// Ajouter un catway
+exports.add = async (req, res, next) => {
+    try {
+      const { catwayNumber, catwayType, catwayState } = req.body;
+      const newCatway = await Catway.create({ catwayNumber, catwayType, catwayState });
+      return res.redirect('/catways');
+    } catch (error) {
+      return res.status(500).json({ message: 'Erreur lors de la création du catway', error });
+    }
+  };
+  
 
 // ✅ Récupérer tous les catways
 exports.getAll = async (req, res) => {
@@ -20,48 +34,25 @@ exports.getAll = async (req, res) => {
 };
 
 // ✅ Récupérer un catway par ID
-exports.getById = async (req, res) => {
+exports.getById = async (req, res, next) => {
     try {
-        const catway = await Catway.findById(req.params.id);
-
-        if (!catway) {
-            return isJSON(req)
-                ? res.status(404).json({ message: 'Catway non trouvé' })
-                : res.status(404).send('Catway non trouvé');
-        }
-
-        return isJSON(req)
-            ? res.status(200).json({ catway })
-            : res.render('catwayInfo', { title: 'Détail Catway', catway });
-
+      const id = req.params.id;
+      console.log("📌 Requête détail Catway pour l'id:", id);
+  
+      const catway = await Catway.findById(id);
+      const reservations = await Reservation.find({ catwayNumber: catway.catwayNumber });
+  
+      if (!catway) {
+        return res.status(404).json({ message: "Catway non trouvé" });
+      }
+  
+      return res.render("catwayInfo", { catway, reservations });
     } catch (error) {
-        return res.status(500).json({ message: "Erreur serveur lors de la récupération du catway", error });
+      console.error("💥 Erreur dans getById:", error);
+      return res.status(500).json({ message: "Erreur serveur", error });
     }
-};
-
-// ✅ Créer un nouveau catway
-exports.add = async (req, res) => {
-    const { catwayNumber, catwayType, catwayState } = req.body;
-
-    // Validation simple
-    if (!catwayNumber || !catwayType || !catwayState) {
-        return res.status(400).json({ message: "Tous les champs sont requis" });
-    }
-
-    try {
-        const existing = await Catway.findOne({ catwayNumber });
-        if (existing) {
-            return res.status(400).json({ message: "Un catway avec ce numéro existe déjà" });
-        }
-
-        const newCatway = new Catway({ catwayNumber, catwayType, catwayState });
-        await newCatway.save();
-
-        return res.status(201).json({ message: "Catway créé avec succès", catway: newCatway });
-    } catch (error) {
-        return res.status(500).json({ message: "Erreur lors de la création du catway", error });
-    }
-};
+  };
+  
 
 // ✅ Mettre à jour uniquement l’état d’un catway
 exports.update = async (req, res) => {

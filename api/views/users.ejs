@@ -20,10 +20,10 @@
 </head>
 <body>
 
-  <h1>👥 Gestion des utilisateurs</h1>
+  <h1> Gestion des utilisateurs</h1>
 
-  <!-- 🔐 Connexion -->
-  <h2>🔐 Connexion</h2>
+  <!--  Connexion -->
+  <h2> Connexion</h2>
   <form action="/users/authenticate" method="POST">
     <label>Email :</label>
     <input type="email" name="email" required>
@@ -32,8 +32,8 @@
     <button type="submit">Se connecter</button>
   </form>
 
-  <!-- ➕ Créer un utilisateur -->
-  <h2>➕ Ajouter un utilisateur</h2>
+  <!--  Créer un utilisateur -->
+  <h2> Ajouter un utilisateur</h2>
   <form method="POST" action="/users">
     <label>Nom :</label>
     <input type="text" name="name" required>
@@ -47,8 +47,8 @@
     <button type="submit">Créer</button>
   </form>
 
-  <!-- 📋 Liste utilisateurs -->
-  <h2>📋 Liste des utilisateurs</h2>
+  <!--  Liste utilisateurs -->
+  <h2> Liste des utilisateurs</h2>
   <% if (users.length === 0) { %>
     <p>Aucun utilisateur trouvé.</p>
   <% } else { %>
@@ -71,11 +71,11 @@
                 <input type="email" name="email" value="<%= u.email %>" required>
             </td>
             <td class="actions">
-                <button type="submit">✏️ Modifier</button>
-                <a href="/users/<%= u.email %>">🔍 Détails</a>
+                <button type="submit"> Modifier</button>
+                <a href="/users/<%= u.email %>"> Détails</a>
               </form>
               <form method="POST" action="/users/<%= u.email %>?_method=DELETE" onsubmit="return confirm('Supprimer cet utilisateur ?')">
-                <button type="submit">🗑️ Supprimer</button>
+                <button type="submit"> Supprimer</button>
               </form>
             </td>
           </tr>
@@ -84,8 +84,8 @@
     </table>
   <% } %>
 
-  <!-- 🚪 Déconnexion -->
-  <h2>🚪 Déconnexion</h2>
+  <!--  Déconnexion -->
+  <h2> Déconnexion</h2>
   <a href="/logout">Se déconnecter</a>
 
 </body>

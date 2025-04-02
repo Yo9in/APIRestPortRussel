@@ -1,15 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Détail du Catway</title>
+  <meta charset="UTF-8">
+  <title>Réservations - Catway <%= catway.catwayNumber %></title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+    h1 { margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 30px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #eee; }
+    form { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; }
+    button, .back-btn {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .actions form, .actions a { display: inline-block; margin-right: 6px; }
+  </style>
 </head>
 <body>
-    <h1>Catway Info</h1>
-    <ul>
-        <li><strong>Numéro :</strong> <%= catway.catwayNumber %></li>
-        <li><strong>Type :</strong> <%= catway.catwayType %></li>
-        <li><strong>État :</strong> <%= catway.catwayState %></li>
-    </ul>
-    <a href="/catways">← Retour à la liste</a>
+
+  <!-- 🔙 Bouton retour -->
+  <a href="/dashboard" class="back-btn">⬅️ Retour au tableau de bord</a>
+
+  <h1>📋 Réservations pour Catway <%= catway.catwayNumber %></h1>
+
+  <!-- ➕ Créer une réservation -->
+  <h2>➕ Ajouter une réservation</h2>
+  <form method="POST" action="/catways/<%= catway._id %>/reservations">
+    <label>ID réservation :</label>
+    <input type="number" name="ReservationId" required>
+
+    <label>Nom du client :</label>
+    <input type="text" name="clientName" required>
+
+    <label>Nom du bateau :</label>
+    <input type="text" name="boatName" required>
+
+    <label>Date de début :</label>
+    <input type="date" name="startDate" required>
+
+    <label>Date de fin :</label>
+    <input type="date" name="endDate" required>
+
+    <button type="submit">Créer</button>
+  </form>
+
+  <!-- 📑 Liste des réservations du catway -->
+  <h2>📑 Réservations associées à ce catway</h2>
+  <% if (reservations.length === 0) { %>
+    <p>Aucune réservation enregistrée pour ce catway.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Bateau</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reservations.forEach(r => { %>
+          <tr>
+            <form method="POST" action="/catways/<%= catway._id %>/reservations/<%= r._id %>?_method=PATCH">
+              <td><input type="text" name="clientName" value="<%= r.clientName %>" required></td>
+              <td><input type="text" name="boatName" value="<%= r.boatName %>" required></td>
+              <td><input type="date" name="startDate" value="<%= r.startDate.toISOString().split('T')[0] %>" required></td>
+              <td><input type="date" name="endDate" value="<%= r.endDate.toISOString().split('T')[0] %>" required></td>
+              <td class="actions">
+                <button type="submit">✏️ Modifier</button>
+                <a href="/catways/<%= catway._id %>/reservations/<%= r._id %>">🔍 Détails</a>
+            </form>
+            <form method="POST" action="/catways/<%= catway._id %>/reservations/<%= r._id %>?_method=DELETE" onsubmit="return confirm('Supprimer cette réservation ?')">
+              <button type="submit">🗑️ Supprimer</button>
+            </form>
+              </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
 </body>
 </html>

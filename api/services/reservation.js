@@ -5,35 +5,66 @@ const Catway = require('../models/catways');
 exports.getAllAll = async (req, res, next) => {
     try {
       const reservations = await Reservation.find({});
-      const catway = await Catway.findOne(); // récupère un catway
+      const catways = await Catway.find({});
+  
+      // 🧠 Création d'une map pour retrouver le _id d'un catway à partir de son numéro
+      const catwayMap = {};
+      catways.forEach(catway => {
+        catwayMap[catway.catwayNumber] = catway._id;
+      });
+  
+      // 🔁 Ajout de catwayId à chaque réservation
+      const enrichedReservations = reservations.map(r => {
+        return {
+          ...r.toObject(),
+          catwayId: catwayMap[r.catwayNumber] || null  // Ajoute catwayId à chaque réservation
+        };
+      });
+  
+      // Pour afficher un titre et pré-remplir le formulaire, on passe un catway arbitraire (le 1er)
+      const catway = catways[0];
   
       if (!catway) {
         return res.status(404).send("Aucun catway trouvé.");
       }
   
       return res.render('reservationGlobal', {
-        reservations,
-        catway, // ✅ ici on passe bien l’objet catway attendu dans la vue
+        reservations: enrichedReservations,
+        catway
       });
+  
     } catch (err) {
-      console.error("Erreur récupération réservations globales:", err);
+      console.error("❌ Erreur récupération réservations globales:", err);
       return res.status(500).json({ message: "Erreur serveur", error: err });
     }
   };
   
   
+  
 
 // ✅ Détails d'une réservation spécifique
 exports.getById = async (req, res, next) => {
+    console.log("📥 Route getById appelée");
+  console.log("➡️  req.params:", req.params);
+  
     const catwayId = req.params.id;
-    const idReservation = req.params.idReservation;
+    const reservationId = req.params.idReservation;
+    ; // ⚠️ attention à la casse ici
+
+    console.log("🔍 Accès à getById");
+  console.log("📌 catwayId reçu =", catwayId);
+  console.log("📌 reservationId reçu =", reservationId);
 
     try {
         const catway = await Catway.findById(catwayId);
         if (!catway) return res.status(404).json({ message: "Catway non trouvé" });
+        console.log("catway =", catway); // ou reservation
 
-        const reservation = await Reservation.findById(idReservation);
+
+        const reservation = await Reservation.findById(reservationId);
         if (!reservation) return res.status(404).json({ message: "Réservation non trouvée" });
+        console.log("reservation =", Reservation); 
+
 
         return res.render('reservationInfo', {
             title: 'Info de réservation',
@@ -44,6 +75,7 @@ exports.getById = async (req, res, next) => {
         return res.status(500).json({ message: "Erreur serveur", error });
     }
 };
+
 
 // ✅ Créer une réservation liée à un catway
 exports.add = async (req, res, next) => {
