@@ -5,10 +5,14 @@ const logger = require('morgan');
 const cors = require('cors');
 const indexRouter = require('./routes/index');
 const mongodb = require('./db/mongo');
+const methodOverride = require('method-override');
+
 
 mongodb.initClientDbConnection();
 
 const app = express();
+
+app.use(methodOverride('_method'));
 
 // View Engine
 app.set('views', path.join(__dirname, 'views'));

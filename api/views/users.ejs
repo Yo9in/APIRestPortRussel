@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion des utilisateurs</title>
+  <style>
+    body { font-family: sans-serif; background-color: #f5f5f5; padding: 20px; }
+    h1, h2 { margin-top: 30px; }
+    form, table { background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    label { display: block; margin-top: 10px; }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%; padding: 8px; margin-top: 5px;
+    }
+    button { margin-top: 15px; padding: 10px 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { background-color: #eee; }
+    .actions form, .actions a { display: inline-block; margin-right: 6px; }
+  </style>
+</head>
+<body>
+
+  <h1>👥 Gestion des utilisateurs</h1>
+
+  <!-- 🔐 Connexion -->
+  <h2>🔐 Connexion</h2>
+  <form action="/users/authenticate" method="POST">
+    <label>Email :</label>
+    <input type="email" name="email" required>
+    <label>Mot de passe :</label>
+    <input type="password" name="password" required>
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <!-- ➕ Créer un utilisateur -->
+  <h2>➕ Ajouter un utilisateur</h2>
+  <form method="POST" action="/users">
+    <label>Nom :</label>
+    <input type="text" name="name" required>
+
+    <label>Email :</label>
+    <input type="email" name="email" required>
+
+    <label>Mot de passe :</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Créer</button>
+  </form>
+
+  <!-- 📋 Liste utilisateurs -->
+  <h2>📋 Liste des utilisateurs</h2>
+  <% if (users.length === 0) { %>
+    <p>Aucun utilisateur trouvé.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(u => { %>
+          <tr>
+            <td>
+              <form method="POST" action="/users/<%= u.email %>?_method=PATCH">
+                <input type="text" name="name" value="<%= u.name %>" required>
+            </td>
+            <td>
+                <input type="email" name="email" value="<%= u.email %>" required>
+            </td>
+            <td class="actions">
+                <button type="submit">✏️ Modifier</button>
+                <a href="/users/<%= u.email %>">🔍 Détails</a>
+              </form>
+              <form method="POST" action="/users/<%= u.email %>?_method=DELETE" onsubmit="return confirm('Supprimer cet utilisateur ?')">
+                <button type="submit">🗑️ Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <!-- 🚪 Déconnexion -->
+  <h2>🚪 Déconnexion</h2>
+  <a href="/logout">Se déconnecter</a>
+
+</body>
+</html>

@@ -10,12 +10,12 @@ const private = require('../middlewares/private');
 
   
 
-router.get('/catways/:id/reservations', private.checkJWT, service.getAll);
+router.get('/', service.getAllAll);
 
 router.get('/catways/:id/reservations/:ReservationId', private.checkJWT, service.getById);
 
-router.post('/catways/:id/reservations',private.checkJWT,  service.add);
-console.log("📥 Route POST /catways/:id/reservations enregistrée");
+router.post('/catways/:id/reservations' ,private.checkJWT,  service.add);
+
 
 
 router.patch('/catways/:id/reservations/:ReservationId',private.checkJWT, service.update);
