@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "ejs": "^3.1.10",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "serverless-http": "^3.2.0"
   }
 }
